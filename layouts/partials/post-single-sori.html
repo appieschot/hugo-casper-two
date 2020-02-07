@@ -1,30 +1,43 @@
-<article class="post-full post"> 
-    <header class="post-full-header">
-        <section class="post-full-meta">
-            <time class="post-full-meta-date" datetime="{{.Date.Format "2006-01-02"}}">{{ .Date.Format "2 January 2006" | safeHTML }}</time>{{if .Params.tags }}
-                <span class="date-divider">/</span> {{ range $index, $tag := .Params.tags }}{{if lt $index 2}}<a href="{{$.Site.BaseURL}}tags/{{ $tag | urlize }}/">#{{$tag}}</a>&nbsp;{{end}}{{end}}{{ end }}
-        </section>
-        <h1 class="post-full-title">{{.Title}}</h1>
-    </header>
-    {{if .Params.image}}
-    <figure class="post-full-image" style="background-image: url({{.Params.image | absURL}})">
-    </figure>{{else}}
-    <figure class="post-full-image" style="background-image: url({{$.Site.BaseURL}}defimg/{{ index (seq 7 | shuffle) 0 }}.jpg)">
-    </figure>{{end}}
+<article class="post-card post">
+    <a class="post-card-image-link" href="{{ .Permalink }}">
+      {{if .Params.image}}
+      <div class="post-card-image">
+        <picture>
+          <source srcset="{{.Params.image | absURL}}" type="image/webp">
+          <img src="{{replace .Params.image ".webp" ".png" | absURL}}" alt="{{ .Title}} header image"></source>
+        </picture>
+      </div>{{else}}
+      <div class="post-card-image">
+        <picture>
+          <img src="{{$.Site.BaseURL}}defimg/{{ index (seq 7 | shuffle) 0 }}.jpg" alt="{{ .Title}} header image">
+        </picture>
+      </div>{{end}}
+    </a>
 
-    <section class="post-full-content">
-        <div class="kg-card-markdown">
-        {{ .Content }}    
-        </div>
-    </section>
-
-    <footer class="post-full-footer">
-      <section class="author-card">
-        <img class="author-profile-image" src="{{ (.Params.authorAvatar | default .Site.Params.authorAvatar) | absURL}}" alt="Author" />
-        <section class="author-card-content">
-            <h4 class="author-card-name"><a href="{{"/" | absURL}}">{{.Params.author | default .Site.Params.author}}</a></h4>
-                <p>{{.Params.authorDescription | default .Site.Params.authorDescription}}</p>
+    <div class="post-card-content">
+      <a class="post-card-content-link" href="{{ .Permalink }}">
+        <header class="post-card-header">
+          {{if .Params.tags }}<span class="post-card-tags">{{ range $index, $tag := .Params.tags }}
+            #{{$tag}} {{end}} </span>
+          {{ end }}
+          <h2 class="post-card-title">{{.Title}}</h2>
+        </header>
+        <section class="post-card-excerpt">
+          {{ if .Description }}
+          <p>{{ .Description | markdownify }}</p>
+          {{else}}
+          <p>{{ .Summary | plainify | safeHTML }}{{ if .Truncated }} ... {{end}} </p>
+          {{end}}
         </section>
-      </section>
-    </footer>
-</article>
+      </a>
+
+      <footer class="post-card-meta">
+        <picture>
+          <source srcset="{{.Site.Params.authorAvatar | absURL}}" type="image/webp">
+          <img class="author-profile-image" src="{{.Site.Params.authorAvatarFallback | absURL}}" alt="author image" />
+          </source>
+        </picture>
+        <span class="post-card-author"><a href="/">{{.Params.author | default .Site.Params.author}}</a></span>
+      </footer>
+    </div>
+  </article>

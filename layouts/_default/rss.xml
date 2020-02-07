@@ -1,0 +1,34 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:webfeeds="http://webfeeds.org/rss/1.0" xmlns:media="http://search.yahoo.com/mrss/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>{{ if eq  .Title  .Site.Title }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{.}} on {{ end }}{{ .Site.Title }}{{ end }}</title>
+    <description>Recent content on {{ .Site.Params.description }}</description>
+    <webfeeds:cover image="{{ .Permalink }}{{ replace .Site.Params.Cover ".webp" ".jpg" }}" />
+    <link>{{ .Permalink }}</link>
+    <image>
+      <url>{{ "favicon.ico" | absURL}}</url>
+      <title>{{ if eq  .Title  .Site.Title }}{{ .Site.Title }}{{ else }}{{ with .Title }}{{.}} on {{ end }}{{ .Site.Title }}{{ end }}</title>
+      <link>{{ .Permalink }}</link>
+    </image>
+    {{ with .OutputFormats.Get "RSS" }}{{ printf "<atom:link href=%q rel=\"self\" type=%q />" .Permalink .MediaType | safeHTML }}{{ end }}
+    <pubDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+    <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</lastBuildDate>
+    <generator>Hugo -- gohugo.io</generator>
+    {{ with .Site.LanguageCode }}<language>{{.}}</language>{{ end }}
+    {{if .Site.Params.googleAnalytics }}<webfeeds:analytics id="{{ .Site.Params.googleAnalytics }}" engine="GoogleAnalytics"/>{{ end }}
+    <ttl>60</ttl>
+    {{ range first 15 (where .Site.Pages "Type" "post")}}<item>
+      <title>{{ .Title }}</title>
+      <description>{{if .Params.image }}{{ htmlUnescape "<p><img src="}}"{{ replace .Params.image ".webp" ".png" | absURL}}" class="webfeedsFeaturedVisual" {{ htmlUnescape "/></p>" }} {{ end }}
+      {{ htmlUnescape "<p>"}}{{ .Summary | htmlUnescape }}{{ htmlUnescape "</p>"}}</description>
+      <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" | safeHTML }}</pubDate>
+      <link>{{ .Permalink }}</link>
+      <guid isPermalink="true">{{ .Permalink }}</guid>
+      <media:content url="{{if .Params.image }}{{ replace .Params.image ".webp" ".png" | absURL }}{{ end }}" medium="image"/>
+      {{ range .Params.categories }}
+            <category>{{ . }}</category>
+      {{ end }}
+      {{ with .Site.Params.Author }}<dc:creator>{{.}}{{ with $.Site.Params.Author }}{{end}}</dc:creator>{{end}}
+    </item>
+    {{ end }}
+  </channel>
+</rss>

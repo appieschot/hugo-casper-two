@@ -1,6 +1,8 @@
 # Casper Two
 
-[Casper Two](https://github.com/eueung/hugo-casper-two) is a port of the [Casper](https://github.com/TryGhost/Casper), the default personal blogging theme for Ghost. While a legacy version (v1.x) has [already been ported](https://github.com/vjeantet/hugo-theme-casper) to Hugo years ago, it is incompatible with the recent 2.x version. So I ended up porting this new Casper version. 
+Be aware that this is a customized fork of [Casper Two](https://github.com/eueung/hugo-casper-two) is a port of the [Casper](https://github.com/TryGhost/Casper), the default personal blogging theme for Ghost. While a legacy version (v1.x) has [already been ported](https://github.com/vjeantet/hugo-theme-casper) to Hugo years ago, it is incompatible with the recent 2.x version.
+
+I choose to fork the site and implemented improvements to support webp images and take advantage of the Hugo version 0.62.
 
 ![Screenshot](https://raw.githubusercontent.com/eueung/hugo-casper-two/master/images/screenshot.png)
 
@@ -14,13 +16,13 @@
 Inside the folder of your Hugo site run:
 
     $ cd themes
-    $ git clone https://github.com/eueung/hugo-casper-two.git casper-two
+    $ git clone https://github.com/appieschot/hugo-casper-two.git casper-two
 
 For more information read the official [setup guide](//gohugo.io/overview/installing/) of Hugo.
 
 ## Sample Configuration
 
-The following `config.toml` is used for the demo site. 
+The following `config.toml` is used for the demo site.
 
 ```toml
 baseurl         = "/"
@@ -41,9 +43,9 @@ paginate        = 6
   customCSS = []
   RSSLink = ""
 
-  twitterName = "faketryghost"
-  fbName = "fakeghost"
-  githubName = "eueung"
+  twitterName = "appieschot"
+  fbName = "appieschot"
+  githubName = "appieschot"
 
   logo = "hugo-logo.png"
   orgName = "EM"
@@ -51,7 +53,8 @@ paginate        = 6
   orgDescription = "Here is a description placeholder for your org"
 
   author = "EM"
-  authorAvatar = "img/ghost-icon.png"
+  authorAvatar = "img/ghost-icon.webp"
+  authorAvatarFallBack = "img/ghost-icon.png"
   authorLocation = "Bandung, ID"
   authorWebsite = "https://eueung.github.io"
   authorDescription = "Describe yourself.."
@@ -93,5 +96,3 @@ Sample content structure is given in the `exampleSite` folder. Have fun!
 ## License
 
 This theme is released under the MIT license. For more information read the [License](//github.com/eueung/hugo-casper-two/blob/master/LICENSE.md).
-
-
